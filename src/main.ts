@@ -21,9 +21,11 @@ export const buildSLSAProvenancePredicate = async (
   // Split just the path and ref from the workflow string.
   // owner/repo/.github/workflows/main.yml@main =>
   //   .github/workflows/main.yml, main
-  const [workflowPath, workflowRef] = claims.workflow_ref
-    .replace(`${claims.repository}/`, '')
-    .split('@')
+  // const [workflowPath, workflowRef] = claims.workflow_ref
+  //   .replace(`${claims.repository}/`, '')
+  //   .split('@')
+  const workflowPath = '.github/workflow/some_workflow.yml'
+  const workflowRef = 'some-branch'
 
   return {
     type: SLSA_PREDICATE_V1_TYPE,
@@ -33,15 +35,18 @@ export const buildSLSAProvenancePredicate = async (
         externalParameters: {
           workflow: {
             ref: workflowRef,
-            repository: `${serverURL}/${claims.repository}`,
+            // repository: `${serverURL}/${claims.repository}`,
+            repository: `${serverURL}/someowner/somerepo`,
             path: workflowPath
           }
         },
         internalParameters: {
           github: {
             event_name: claims.event_name,
-            repository_id: claims.repository_id,
-            repository_owner_id: claims.repository_owner_id
+            // repository_id: claims.repository_id,
+            // repository_owner_id: claims.repository_owner_id
+            repository_id: '1234567',
+            repository_owner_id: '7654321'
           }
         },
         resolvedDependencies: [
