@@ -1,5 +1,5 @@
-import {getIDToken} from '@actions/core'
-import {HttpClient} from '@actions/http-client'
+import { getIDToken } from '@actions/core'
+import { HttpClient } from '@actions/http-client'
 import * as jwt from 'jsonwebtoken'
 import jwks from 'jwks-rsa'
 
@@ -19,7 +19,7 @@ const REQUIRED_CLAIMS = [
   'run_attempt'
 ] as const
 
-export type ClaimSet = {[K in (typeof REQUIRED_CLAIMS)[number]]: string}
+export type ClaimSet = { [K in (typeof REQUIRED_CLAIMS)[number]]: string }
 
 type OIDCConfig = {
   jwks_uri: string
@@ -31,7 +31,8 @@ export const getIDTokenClaims = async (issuer: string): Promise<ClaimSet> => {
     const claims = await decodeOIDCToken(token, issuer)
     assertClaimSet(claims)
     return claims
-  } catch (error) {
+  } catch (err) {
+    const error = err instanceof Error ? err : new Error(`${err}`)
     throw new Error(`Failed to get ID token: ${error.message}`)
   }
 }
@@ -45,7 +46,7 @@ const decodeOIDCToken = async (
     jwt.verify(
       token,
       getPublicKey(issuer),
-      {audience: OIDC_AUDIENCE, issuer},
+      { audience: OIDC_AUDIENCE, issuer },
       (err, decoded) => {
         if (err) {
           reject(err)
@@ -74,7 +75,7 @@ const getPublicKey =
           callback(new Error('No OpenID configuration found'))
         } else {
           // Fetch the public key from the JWKS URI
-          jwks({jwksUri: data.result.jwks_uri}).getSigningKey(
+          jwks({ jwksUri: data.result.jwks_uri }).getSigningKey(
             header.kid,
             (err, key) => {
               callback(err, key?.getPublicKey())

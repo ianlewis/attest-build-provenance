@@ -1,4 +1,4 @@
-import type {SerializedBundle} from '@sigstore/bundle'
+import type { SerializedBundle } from '@sigstore/bundle'
 
 /*
  * The subject of an attestation.
