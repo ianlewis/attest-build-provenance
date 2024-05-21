@@ -25,7 +25,7 @@ export const buildSLSAProvenancePredicate = async (
   //   .replace(`${claims.repository}/`, '')
   //   .split('@')
   const workflowPath = '.github/workflows/artifact-attestations.basic.yml'
-  const workflowRef = 'main'
+  const workflowRef = 'refs/heads/main'
 
   return {
     type: SLSA_PREDICATE_V1_TYPE,
