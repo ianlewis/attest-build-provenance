@@ -42040,6 +42040,7 @@ exports.buildSLSAProvenancePredicate = buildSLSAProvenancePredicate;
  */
 async function run() {
     try {
+        console.log('running fork');
         // Calculate subject from inputs and generate provenance
         const predicate = await (0, exports.buildSLSAProvenancePredicate)();
         core.setOutput('predicate', predicate.params);

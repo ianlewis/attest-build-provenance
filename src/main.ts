@@ -71,6 +71,7 @@ export const buildSLSAProvenancePredicate = async (
  */
 export async function run(): Promise<void> {
   try {
+    console.log('running fork')
     // Calculate subject from inputs and generate provenance
     const predicate = await buildSLSAProvenancePredicate()
 
